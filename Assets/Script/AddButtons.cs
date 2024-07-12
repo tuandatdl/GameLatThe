@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AddButtons : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class AddButtons : MonoBehaviour
     [SerializeField]
     private GameObject Button_1;
     GameObject btn;
+     [SerializeField] private Button nextLevelButton; // Kéo và thả Button từ Inspector
+
+    private SceneController sceneController;
     // Start is called before the first frame update
     void Awake()
     {
@@ -23,3 +27,4 @@ public class AddButtons : MonoBehaviour
         }
     }
 }
+

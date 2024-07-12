@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {    //Tao list de luu cac button
-    public AudioClip rightSound;
-    public AudioClip wrongSound;
-    private AudioSource source;
     [SerializeField]
     private Text score;
     [SerializeField]
@@ -22,31 +19,17 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         SourceSprites = Resources.LoadAll<Sprite> ("Sprites/GameImg"); 
-        source = GetComponent<AudioSource>();
-        //Ham thu
-        if (source == null)
-        {
-            Debug.LogError("AudioSource is missing on the GameObject.");
-        }
+    
     }
     // Start is called before the first frame update
     void Start()
     {
+        SoundController.instance.PlayThisSound("music", 0.7f);
         GetButtons();
         TotalGuess = btnList.Count / 2;
         AddListener();
         AddSprites();
         Shuffle(GameSprite);
-
-        // Kiểm tra và thông báo nếu âm thanh chưa được gán
-        if (rightSound == null)
-        {
-            Debug.LogError("Right sound is not assigned in the inspector.");
-        }
-        if (wrongSound == null)
-        {
-            Debug.LogError("Wrong sound is not assigned in the inspector.");
-        }
     }
     void AddSprites()
     {
@@ -104,15 +87,7 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds (0.5f);
           if (firstname == secondname && firstIndex != secondIndex) 
         {
-             if (source != null && rightSound != null)
-            {
-                source.PlayOneShot(rightSound);
-            }
-            //Ham thu
-             else
-            {
-                Debug.LogError("Wrong sound or AudioSource is missing.");
-            }
+            SoundController.instance.PlayThisSound("rightSound", 1f);
             CorrectGuess++;
             btnList[firstIndex].interactable = false;
             btnList[secondIndex].interactable = false;
@@ -122,23 +97,15 @@ public class GameController : MonoBehaviour
         }
         else
         {
-           if (source != null && wrongSound != null)
-            {
-                source.PlayOneShot(wrongSound);
-            }
-            // Ham thu
-            else
-            {
-                Debug.LogError("Right sound or AudioSource is missing.");
-            }
+            SoundController.instance.PlayThisSound("wrongSound", 0.5f);
             btnList[firstIndex].image.sprite = backgroundImg;
             btnList[secondIndex].image.sprite = backgroundImg;
         }
         firstGuess = secondGuess = false;
-        if (score != null)
+        /*if (score != null)
         {
             score.text = "Score: " + CorrectGuess.ToString();
-        }
+        }*/
           CheckIfFinished();
       }
       void CheckIfFinished()
@@ -146,6 +113,7 @@ public class GameController : MonoBehaviour
         if(CorrectGuess == TotalGuess)
         {
             Debug.Log("Win with " + NoOfGuess);
+            
         }
       }
       void Shuffle(List<Sprite> list)
