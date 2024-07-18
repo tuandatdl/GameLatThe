@@ -68,6 +68,8 @@
     <Compile Include="Assets\Script\AddButtons.cs" />
     <Compile Include="Assets\Script\SoundController.cs" />
     <Compile Include="Assets\Script\GameController.cs" />
+    <Compile Include="Assets\MainMenu.cs" />
+    <Compile Include="Assets\AudioManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

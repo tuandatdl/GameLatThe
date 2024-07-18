@@ -1,25 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {    //Tao list de luu cac button
-    [SerializeField]
-    private Text score;
-    [SerializeField]
-    private Sprite backgroundImg;
+    [SerializeField] private Sprite backgroundImg;
+    [SerializeField] public Sprite[] SourceSprites;
+    [SerializeField] private Text timeText;
+    [SerializeField] private float timer;
+    [SerializeField] private float currentTimer;
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject nextGamePanel;
     private List<Button> btnList = new List<Button>();
-    [SerializeField]
-    public Sprite[] SourceSprites;
     public List<Sprite> GameSprite = new List<Sprite>();
     private bool firstGuess, secondGuess;
-    string firstname, secondname;
-    int firstIndex, secondIndex, TotalGuess, NoOfGuess, CorrectGuess;
+    private bool isGameFinished = false;
+    private string firstname, secondname;
+    private int firstIndex, secondIndex, TotalGuess, NoOfGuess, CorrectGuess;
+
+    
     void Awake()
     {
         SourceSprites = Resources.LoadAll<Sprite> ("Sprites/GameImg"); 
-    
     }
     // Start is called before the first frame update
     void Start()
@@ -30,7 +34,26 @@ public class GameController : MonoBehaviour
         AddListener();
         AddSprites();
         Shuffle(GameSprite);
+        currentTimer = timer;
     }
+    private void Update() 
+    {
+        TimeUp();
+    }
+    private void TimeUp() 
+    {
+         if (isGameFinished) return;
+         
+         currentTimer -= Time.deltaTime;
+    if (currentTimer < 0) 
+    {
+        currentTimer = 0; // Ensure the timer doesn't go below zero
+        gameOverPanel.SetActive(true);
+    }
+    int remainingTime = Mathf.FloorToInt(currentTimer);
+    timeText.text = remainingTime.ToString();
+}
+
     void AddSprites()
     {
         int size = btnList.Count;
@@ -102,18 +125,15 @@ public class GameController : MonoBehaviour
             btnList[secondIndex].image.sprite = backgroundImg;
         }
         firstGuess = secondGuess = false;
-        /*if (score != null)
-        {
-            score.text = "Score: " + CorrectGuess.ToString();
-        }*/
           CheckIfFinished();
       }
       void CheckIfFinished()
       {
         if(CorrectGuess == TotalGuess)
         {
+            isGameFinished = true;
             Debug.Log("Win with " + NoOfGuess);
-            
+            nextGamePanel.SetActive(true);
         }
       }
       void Shuffle(List<Sprite> list)

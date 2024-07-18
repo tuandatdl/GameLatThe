@@ -11,33 +11,12 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
-    // Chuyển đến Scene kế tiếp với thời gian chờ
-    public void LoadNextSceneWithDelay(float delay)
-    {
-        StartCoroutine(LoadNextSceneAfterDelay(delay));
-    }
-
-    private IEnumerator LoadNextSceneAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        LoadNextScene();
-    }
-
-    // Chuyển đến Scene theo tên
-    public void LoadSceneByName(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
-
-    // Chuyển đến Scene theo chỉ số
-    public void LoadSceneByIndex(int sceneIndex)
-    {
-        SceneManager.LoadScene(sceneIndex);
-    }
-
     // Khởi động lại Scene hiện tại
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void Menu(){
+        SceneManager.LoadScene(0);
     }
 }

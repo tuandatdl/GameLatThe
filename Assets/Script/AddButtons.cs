@@ -11,13 +11,23 @@ public class AddButtons : MonoBehaviour
     [SerializeField]
     private GameObject Button_1;
     GameObject btn;
-     [SerializeField] private Button nextLevelButton; // Kéo và thả Button từ Inspector
-
-    private SceneController sceneController;
+    [SerializeField] private Button nextLevelButton; // Kéo và thả Button từ Inspector
+    [SerializeField] private int buttonDifficult;
     // Start is called before the first frame update
     void Awake()
     {
-        for (int i = 0; i < 8; i++)
+        Level();
+    }
+    private void Difficult(){
+        switch(buttonDifficult){
+            case 1: buttonDifficult = 6;
+            break;
+            default: buttonDifficult = 6; 
+            break;
+        }
+    }
+    private void Level(){
+        for (int i = 0; i < buttonDifficult; i++)
         {
             // tao 8 cai button
             // gan 8 cai do vo pannel
